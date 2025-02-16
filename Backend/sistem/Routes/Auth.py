@@ -3,6 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token
 from sistem.Models.UserModel import UserModel
 from sistem import db
+from flask_jwt_extended import create_access_token
 
 auth_bp = Blueprint("auth", __name__)
 
@@ -25,3 +26,20 @@ def register():
         return jsonify({"message": "User created successfully"}), 200 #respuesta exitosa
     
 @auth_bp.route("/login", methods=["POST"])
+def login():
+    data = request.get_json() #obtener datos del usuario
+    if not data or not data.get("email") or not data.get("password"):
+        return jsonify({"message": "Email and password are required"}), 400
+    
+    #buscar usuario en la base de datos
+    user = UserModel.query.filter_by(email=data["email"]).first()
+    if not user or not check_password_hash(user.password, data["password"]):
+        return jsonify({"message": "Invalid credentials"}), 401
+    
+    #generar token
+
+    access_token = create_access_token(identity=user.id)
+
+    return jsonify({"access_token": access_token}), 200
+
+
