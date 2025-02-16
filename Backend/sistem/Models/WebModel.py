@@ -1,14 +1,15 @@
-from Backend import db
+from sistem import db
 from datetime import datetime
-class Web(db.Model):
-    __tablename__ = 'web'
-    
+
+class WebModel(db.Model):
+    __tablename__ = 'webs'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String, nullable=False)
-    url = db.Column(db.String, nullable=False)
-    descripcion =db.Column(db.String)
-    dateCreate = db.Column(db.String, nullable=False)
-    category = db.Column(db.String, nullable=False)
-    # Relación con Usuario
-    usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'))
-    usuario = db.relationship('Usuario', back_populates='webs')
+    name = db.Column(db.String(255), nullable=False)
+    url = db.Column(db.String(255), nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    dateCreated = db.Column(db.DateTime, default=datetime.now)
+    category = db.Column(db.String(255), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+
+    def __repr__(self):
+        return f'<Web {self.nombre}>'

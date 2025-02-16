@@ -1,14 +1,12 @@
-from Backend import db
-from datetime import datetime
+from sistem import db
 
-class Curriculum(db.Model):
-    __tablename__ = 'curriculum'
-    
+class CurriculumModel(db.Model):
+    __tablename__ = 'curriculums'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String, nullable=False)
-    dateCreated = db.Column(db.String, nullable=False)
-    body = db.Column(db.String, nullable=False)
-    
-    # Relación con Usuario
-    usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'))
-    usuario = db.relationship('Usuario', back_populates='curriculums')
+    name = db.Column(db.String(255), nullable=False)
+    description = db.Column(db.Text, nullable=True)
+    archive = db.Column(db.String(255), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+
+    def __repr__(self):
+        return f'<Curriculum {self.nombre}>'
