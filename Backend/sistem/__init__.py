@@ -19,6 +19,9 @@ app.register_blueprint(auth_bp)
 
 from sistem.Routes.Web import web_bp
 app.register_blueprint(web_bp)
+
+from sistem.Routes.resume import curriculum_bp
+app.register_blueprint(curriculum_bp)
 # Crear el contexto de la aplicación antes de ejecutar db.create_all()
 with app.app_context():
     db.create_all()
