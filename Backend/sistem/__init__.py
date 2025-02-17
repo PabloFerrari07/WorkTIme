@@ -3,11 +3,11 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
-
+import os
 app = Flask(__name__)
 app.config.from_object('db.DevelopmentConfig')
 app.config["JWT_SECRET_KEY"] = "super-secret"  # clave secreta para el token
-
+JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY", "jwtsecretkey")  # Necesario para JWT
 # Inicializar JWTManager con la app
 jwt = JWTManager(app)
 
